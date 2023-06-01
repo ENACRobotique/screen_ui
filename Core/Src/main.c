@@ -22,11 +22,12 @@
 #include "cmsis_os.h"
 #include "libjpeg.h"
 #include "app_touchgfx.h"
-
-/* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */
 #include "stm32h750b_discovery_qspi.h"
 #include "stm32h750b_discovery_sdram.h"
+
+#include "main_app.h"
+#include "queue.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -105,6 +106,11 @@ extern void videoTaskFunc(void *argument);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+#define INPUTS_QUEUE_LENGTH 3
+uint8_t inputsQueueBuffer[INPUTS_QUEUE_LENGTH];
+StaticQueue_t inputsStaticQueue;
+QueueHandle_t inputsQueue;
+
 
 /* USER CODE END 0 */
 
@@ -176,12 +182,11 @@ int main(void)
   /* USER CODE END RTOS_TIMERS */
 
   /* USER CODE BEGIN RTOS_QUEUES */
+  inputsQueue = xQueueCreateStatic(INPUTS_QUEUE_LENGTH, sizeof(uint32_t), inputsQueueBuffer, &inputsStaticQueue);
   /* add queues, ... */
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
-  /* creation of defaultTask */
-  defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
 
   /* creation of GUITask */
   GUITaskHandle = osThreadNew(TouchGFX_Task, NULL, &GUITask_attributes);
@@ -191,6 +196,10 @@ int main(void)
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
+
+  /* creation of defaultTask */
+  defaultTaskHandle = osThreadNew(StartMainAppTask, NULL, &defaultTask_attributes);
+
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_EVENTS */
