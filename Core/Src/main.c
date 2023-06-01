@@ -107,7 +107,7 @@ extern void videoTaskFunc(void *argument);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 #define INPUTS_QUEUE_LENGTH 3
-uint8_t inputsQueueBuffer[INPUTS_QUEUE_LENGTH];
+uint8_t inputsQueueBuffer[INPUTS_QUEUE_LENGTH * sizeof(uint32_t)];
 StaticQueue_t inputsStaticQueue;
 QueueHandle_t inputsQueue;
 
