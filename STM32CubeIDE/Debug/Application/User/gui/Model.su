@@ -1,3 +1,0 @@
-../../TouchGFX/gui/include/gui/model/ModelListener.hpp:18:18:virtual void ModelListener::handle_tirette(bool)	0	static
-D:/TouchGFXProjects/MyApplication/TouchGFX/gui/src/model/Model.cpp:8:1:Model::Model()	0	static
-D:/TouchGFXProjects/MyApplication/TouchGFX/gui/src/model/Model.cpp:13:6:void Model::tick()	16	static
